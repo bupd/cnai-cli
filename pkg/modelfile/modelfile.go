@@ -2,9 +2,11 @@ package modelfile
 
 import (
 	"fmt"
-	"os/exec"
+	"os"
+	"path/filepath"
 
 	"github.com/CloudNativeAI/modctl/cmd/modelfile"
+	"github.com/bupd/cnai-cli/pkg/storage"
 	"github.com/sirupsen/logrus"
 )
 
@@ -19,9 +21,9 @@ func GenerateModelFile() {
 }
 
 func GotoModelDir(modelDir string) {
-	cmd := exec.Command("cd", modelDir)
-	err := cmd.Run()
+	currDir := storage.GetCurrDir()
+	err := os.Chdir(filepath.Join(currDir, modelDir))
 	if err != nil {
-		logrus.Fatalf("failed cd into: %v, %v", modelDir, err)
+		logrus.Fatalf("failed cd into model dir: %v/%v, %v", currDir, modelDir, err)
 	}
 }
