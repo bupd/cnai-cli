@@ -1,6 +1,7 @@
 package pusher
 
 import (
+	"fmt"
 	"os/exec"
 
 	"github.com/sirupsen/logrus"
@@ -9,7 +10,8 @@ import (
 func PushModel(regUrl string) {
 	// cmd.Execute()
 	// .Execute().SetArgs([]string{"generate", "."})
-	cmd := exec.Command("modctl", "push", regUrl)
+	fmt.Printf("Pushing model to: %v", regUrl)
+	cmd := exec.Command("modctl", "push", regUrl, "--plain-http")
 	err := cmd.Run()
 	if err != nil {
 		logrus.Fatalf("failed modctl push: %v, %v", regUrl, err)
